@@ -312,5 +312,10 @@ namespace Game2048Solver
             return sb.ToString();
 
         }
+
+        public IEnumerable<GameBoard> GetAllResults(Direction direction)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
