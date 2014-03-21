@@ -11,4 +11,4 @@ To Do
 - Add a manual play mode
 - Work on a framework to run AI's against the game board
 - Testing
-- Develop an actual AI
+- Improve AI efficiency
