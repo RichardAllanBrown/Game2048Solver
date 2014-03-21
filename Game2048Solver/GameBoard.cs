@@ -18,7 +18,7 @@ namespace Game2048Solver
         Down
     }
 
-    public interface IGameBoard
+    public interface IGameBoard : IEquatable<GameBoard>
     {
         bool GameOver { get; }
         int MaxValue { get; }
@@ -26,6 +26,8 @@ namespace Game2048Solver
         int Moves { get; }
         int Score { get; }
         string ToString();
+        int GetBoardLength();
+        IEnumerable<IGameBoard> GetAllPossibleResults(Direction direction);
     }
 
     public class GameBoard : IGameBoard
@@ -58,6 +60,30 @@ namespace Game2048Solver
 
             AddNewSquare();
             AddNewSquare();
+        }
+
+        public GameBoard(GameBoard gb)
+            : this(gb, new Random())
+        {
+        }
+
+        public GameBoard(GameBoard gb, Random rand)
+        {
+            this.rand = rand;
+
+            GameOver = gb.GameOver;
+            MaxValue = gb.MaxValue;
+            Score = gb.Score;
+            Moves = gb.Moves;
+
+            var length = gb.GetBoardLength();
+            board = new int[length, length];
+            for (int x = 0; x < length; x++)
+                for (int y = 0; y < length; y++)
+                {
+                    int value = gb.board[x, y];
+                    board[x, y] = value;
+                }
         }
 
         private void AddNewSquare()
@@ -102,6 +128,21 @@ namespace Game2048Solver
 
         public bool Move(Direction direction)
         {
+            var stateChange = ApplyMove(direction);
+
+            if (stateChange)
+            {
+                AddNewSquare();
+                UpdateMaxScore();
+                CheckForGameOver();
+                Moves++;
+            }
+
+            return stateChange;
+        }
+
+        private bool ApplyMove(Direction direction)
+        {
             bool stateChange = false;
 
             switch (direction)
@@ -124,14 +165,6 @@ namespace Game2048Solver
 
                 default:
                     throw new ArgumentOutOfRangeException("TILT! How did you get here?");
-            }
-
-            if (stateChange)
-            {
-                AddNewSquare();
-                UpdateMaxScore();
-                CheckForGameOver();
-                Moves++;
             }
 
             return stateChange;
@@ -313,9 +346,51 @@ namespace Game2048Solver
 
         }
 
-        public IEnumerable<GameBoard> GetAllResults(Direction direction)
+        public int GetBoardLength()
         {
-            throw new NotImplementedException();
+            return BOARD_LENGTH;
+        }
+
+        public IEnumerable<IGameBoard> GetAllPossibleResults(Direction direction)
+        {
+            GameBoard testBoard = new GameBoard(this);
+
+            if (!testBoard.ApplyMove(direction))
+                yield break;
+
+            foreach (var emptySquare in testBoard.GetAllEmptySquares())
+            {
+                testBoard.SetSquare(emptySquare, SPAWN_NO);
+                yield return testBoard;
+            }
+        }
+
+        private IEnumerable<Coord2D> GetAllEmptySquares()
+        {
+            for (int x = 0; x < BOARD_LENGTH; x++)
+                for (int y = 0; y < BOARD_LENGTH; y++)
+                    if (GetSquare(x, y) == 0)
+                        yield return new Coord2D() { x = x, y = y };
+        }
+
+        public bool Equals(GameBoard other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (GetBoardLength() != other.GetBoardLength())
+            {
+                return false;
+            }
+
+            for (int x = 0; x < BOARD_LENGTH; x++)
+                for (int y = 0; y < BOARD_LENGTH; y++)
+                    if (this.GetSquare(x, y) != other.GetSquare(x, y))
+                        return false;
+
+            return true;
         }
     }
 }

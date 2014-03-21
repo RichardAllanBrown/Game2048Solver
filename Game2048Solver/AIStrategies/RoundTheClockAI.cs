@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game2048Solver.AIStrategies
 {
-    class RoundTheClockAI : IStrategy
+    class RoundTheClockAI : ISolver
     {
         private int call = 1;
 

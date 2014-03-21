@@ -12,13 +12,13 @@ namespace Game2048Solver
     {
         static void Main(string[] args)
         {
-            Runner runner = new Runner(new DirectionUntilNothingAI());
-            var result = runner.SolveToEnd(new GameBoard());
+            Runner runner = new Runner(new LookAheadAI(1));
+            var endBoard = runner.SolveToEnd(new GameBoard());
 
-            Console.WriteLine("Maximum Value:      " + result.MaxValue);
-            Console.WriteLine("Score:              " + result.Score);
-            Console.WriteLine("Moves Made:         " + result.Moves);
-            Console.Write(result.ToString());
+            Console.WriteLine("Maximum Value:      " + endBoard.MaxValue);
+            Console.WriteLine("Score:              " + endBoard.Score);
+            Console.WriteLine("Moves Made:         " + endBoard.Moves);
+            Console.Write(endBoard.ToString());
 
             Console.ReadLine();
         }

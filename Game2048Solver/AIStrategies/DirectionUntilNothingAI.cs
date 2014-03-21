@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game2048Solver.AIStrategies
 {
-    public class DirectionUntilNothingAI : IStrategy
+    public class DirectionUntilNothingAI : ISolver
     {
         private Direction currentDirection = Direction.Up;
 

@@ -42,7 +42,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AIStrategies\DirectionUntilNothingAI.cs" />
-    <Compile Include="AIStrategies\IStrategy.cs" />
+    <Compile Include="AIStrategies\ISolver.cs" />
+    <Compile Include="AIStrategies\LookAheadAI.cs" />
     <Compile Include="AIStrategies\RandomAI.cs" />
     <Compile Include="AIStrategies\RoundTheClockAI.cs" />
     <Compile Include="GameBoard.cs" />

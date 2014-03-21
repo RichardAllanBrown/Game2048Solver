@@ -10,18 +10,19 @@ namespace Game2048Solver
 {
     public class Runner
     {
-        IStrategy strat;
+        ISolver strat;
 
-        public Runner(IStrategy strat)
+        public Runner(ISolver strat)
         {
             this.strat = strat;
         }
 
         public IGameBoard SolveToEnd(IGameBoard board)
         {
+            bool lastMove = false;
+
             while (!board.GameOver)
             {
-                bool lastMove = false;
                 lastMove = board.Move(strat.GetNextMove(board, lastMove));
             }
 

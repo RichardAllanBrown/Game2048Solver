@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Game2048Solver.AIStrategies
 {
-    public interface IStrategy
+    public interface ISolver
     {
         Direction GetNextMove(IGameBoard board, bool lastMoveResult);
     }
