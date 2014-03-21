@@ -8,7 +8,12 @@ namespace Game2048Solver.Strategies
 {
     public class LookAheadSolver : ISolver
     {
-        private int searchDepth;
+        private readonly int scoreMult = 1;
+        private readonly int maxValMult = 10;
+        private readonly int gameOverPen = -10000;
+        private readonly int emptySquareMult = 100;
+
+        private readonly int searchDepth;
         private ISolver fallBackStrat = new RandomSolver();
 
         public LookAheadSolver()
@@ -24,7 +29,7 @@ namespace Game2048Solver.Strategies
         public Direction GetNextMove(IGameBoard board, bool lastMoveResult)
         {
             Direction bestDir = fallBackStrat.GetNextMove(board, lastMoveResult);
-            int bestScore = Int32.MinValue;
+            int bestScore = 0;
 
             foreach (Direction direction in Enum.GetValues(typeof(Direction)))
             {
@@ -63,25 +68,27 @@ namespace Game2048Solver.Strategies
             }
 
             int depthTotal = 0;
+            int boardsExplored = 0;
             foreach (IGameBoard gb in possibleBoardsAfterMove)
             {
                 foreach (Direction d in Enum.GetValues(typeof(Direction)))
                 {
                     depthTotal += ScoreAllPossibleBoards(gb, d, depthToSearch - 1);
+                    boardsExplored++;
                 }
             }
 
-            return depthTotal;
+            return depthTotal / boardsExplored;
         }
 
-        private static int ScoreSingleBoard(IGameBoard gb)
+        private int ScoreSingleBoard(IGameBoard gb)
         {
-            int score = gb.Score;
+            int score = gb.Score * scoreMult;
+            score += gb.MaxValue * maxValMult;
+            score += gb.GetEmptySquareCount() * emptySquareMult;
 
-            score += (gb.MaxValue * 4);
-
-            if (gb.GameOver)
-                score -= 2000;
+            if (gb.IsGameOver())
+                score += gameOverPen;
 
             return score;
         }

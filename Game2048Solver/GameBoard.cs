@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace Game2048Solver
 {
@@ -28,6 +29,8 @@ namespace Game2048Solver
         string ToString();
         int GetBoardLength();
         IEnumerable<IGameBoard> GetAllPossibleResults(Direction direction);
+        int GetEmptySquareCount();
+        bool IsGameOver();
     }
 
     public class GameBoard : IGameBoard
@@ -134,7 +137,7 @@ namespace Game2048Solver
             {
                 AddNewSquare();
                 UpdateMaxScore();
-                CheckForGameOver();
+                GameOver = IsGameOver();
                 Moves++;
             }
 
@@ -298,23 +301,23 @@ namespace Game2048Solver
                         MaxValue = GetSquare(x, y);
         }
 
-        private void CheckForGameOver()
+        public bool IsGameOver()
         {
             for (int x = 0; x < BOARD_LENGTH; x++)
                 for (int y = 0; y < BOARD_LENGTH; y++)
                 {
                     var currentSquareValue = GetSquare(x, y);
                     if (currentSquareValue == 0)
-                        return;
+                        return false;
 
                     if (x > 0 && currentSquareValue == GetSquare(x - 1, y))
-                        return;
+                        return false;
 
                     if (y > 0 && currentSquareValue == GetSquare(x, y - 1))
-                        return;
+                        return false;
                 }
 
-            GameOver = true;
+            return true;
         }
 
         public override string ToString()
@@ -391,6 +394,11 @@ namespace Game2048Solver
                         return false;
 
             return true;
+        }
+
+        public int GetEmptySquareCount()
+        {
+            return GetAllEmptySquares().Count();
         }
     }
 }

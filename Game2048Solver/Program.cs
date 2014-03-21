@@ -12,9 +12,13 @@ namespace Game2048Solver
     {
         static void Main(string[] args)
         {
-            Runner runner = new Runner(new LookAheadSolver());
+            Runner runner = new Runner(new LookAheadSolver(4));
+
+            DateTime start = DateTime.Now;
             var endBoard = runner.SolveToEnd(new GameBoard());
 
+            TimeSpan timeTook = DateTime.Now - start;
+            Console.WriteLine("Solver took:        " + timeTook.ToString());
             Console.WriteLine("Maximum Value:      " + endBoard.MaxValue);
             Console.WriteLine("Score:              " + endBoard.Score);
             Console.WriteLine("Moves Made:         " + endBoard.Moves);
