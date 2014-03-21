@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AIStrategies\DirectionUntilNothingAI.cs" />
-    <Compile Include="AIStrategies\ISolver.cs" />
-    <Compile Include="AIStrategies\LookAheadAI.cs" />
-    <Compile Include="AIStrategies\RandomAI.cs" />
-    <Compile Include="AIStrategies\RoundTheClockAI.cs" />
+    <Compile Include="Solvers\DirectionUntilNothingSolver.cs" />
+    <Compile Include="Solvers\ISolver.cs" />
+    <Compile Include="Solvers\LookAheadSolver.cs" />
+    <Compile Include="Solvers\RandomSolver.cs" />
+    <Compile Include="Solvers\RoundTheClockSolver.cs" />
     <Compile Include="GameBoard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

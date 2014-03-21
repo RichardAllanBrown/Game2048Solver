@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Game2048Solver.AIStrategies;
+using Game2048Solver.Strategies;
 
 namespace Game2048Solver
 {
@@ -19,7 +19,7 @@ namespace Game2048Solver
 
         public IGameBoard SolveToEnd(IGameBoard board)
         {
-            bool lastMove = false;
+            bool lastMove = true;
 
             while (!board.GameOver)
             {

@@ -4,14 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game2048Solver.AIStrategies
+namespace Game2048Solver.Strategies
 {
-    public class RandomAI : ISolver
+    public class RandomSolver : ISolver
     {
         private Random rand;
         private Array directions = Enum.GetValues(typeof(Direction));
 
-        public RandomAI(Random rand)
+        public RandomSolver()
+            : this(new Random())
+        {
+        }
+
+        public RandomSolver(Random rand)
         {
             this.rand = rand;
         }

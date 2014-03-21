@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Game2048Solver.AIStrategies
+namespace Game2048Solver.Strategies
 {
-    public class DirectionUntilNothingAI : ISolver
+    public class DirectionUntilNothingSolver : ISolver
     {
         private Direction currentDirection = Direction.Up;
 

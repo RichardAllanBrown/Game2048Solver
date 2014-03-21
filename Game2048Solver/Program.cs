@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Game2048Solver.AIStrategies;
+using Game2048Solver.Strategies;
 
 namespace Game2048Solver
 {
@@ -12,7 +12,7 @@ namespace Game2048Solver
     {
         static void Main(string[] args)
         {
-            Runner runner = new Runner(new LookAheadAI(1));
+            Runner runner = new Runner(new LookAheadSolver());
             var endBoard = runner.SolveToEnd(new GameBoard());
 
             Console.WriteLine("Maximum Value:      " + endBoard.MaxValue);
